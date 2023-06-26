@@ -7,12 +7,16 @@ pré-alpha
 
 from random import randint
 from time import sleep
-#import youtube_dl
 import asyncio
 import discord
 import discord.ext
 from discord.ext import commands
 from CONFIG import *
+from os import getenv
+from dotenv import load_dotenv
+
+load_dotenv()
+DISCORD_TOKEN = getenv("DISCORD_TOKEN")
 
 """Définition de fonctions"""
 def spacer(_list):
@@ -44,11 +48,8 @@ async def sendMessage(msg):
 		msg = msg[2000:]
 		sleep(MESSAGE_RATE)
 
-# code
-
-bot = commands.Bot(command_prefix="?", description="propriété du Cap Stanton")
-musics = {}
-ytdl = youtube_dl.YoutubeDL()
+# Code
+bot = commands.Bot(command_prefix="?", description=DESCRIPTION, intents=discord.Intents.all())
 
 @bot.event
 async def on_ready():
@@ -97,33 +98,12 @@ async def lance(ctx, xdy, operation):
 	print(message)
 	sendMessage(message)
 
-
-@bot.command()
-async def spam(ctx, nombre, temps, *texte):
-	print("spam")
-	message = " ".join(texte)
-	for i in range(int(nombre) + 1):
-		await ctx.send(message)
-		sleep(int(temps))
-
-
-@bot.command()
-async def compte(ctx, nombre, temps):
-	print("compte")
-	for i in range(int(nombre) + 1):
-		message = ""
-		message += str(i)
-		await ctx.send(message)
-		sleep(int(temps))
-
-
 @bot.command()
 async def kick(ctx, user: discord.User, *reason):
 	print(reason)
 	reason = " ".join(reason)
 	await ctx.guild.kick(user, reason=reason)
-	await ctx.send(
-		f"{user} à été détruit par le dés de dieux, si il revient cela donnera une preuve de plus qu'il est l'antéchriste ")
+	sendMessage(f"{user} à été détruit par le dés de dieux, si il revient cela donnera une preuve de plus qu'il est l'antéchrist.")
 
 
 
@@ -131,12 +111,10 @@ async def kick(ctx, user: discord.User, *reason):
 async def ban(ctx, user: discord.User, *reason):
 	reason = " ".join(reason)
 	await ctx.guild.ban(user, reason=reason)
-	await ctx.send(f"{user} à été ban pour la raison suivante : {reason}.")
+	sendMessage(f"{user} à été ban pour la raison suivante : {reason}.")
 
 
 
-
-"""
 @bot.command()
 async def serverInfo(ctx):
 	print("servinfo")
@@ -147,7 +125,7 @@ async def serverInfo(ctx):
 	numberOfPerson = server.member_count
 	serverName = server.name
 	message = f"Le serveur **{serverName}** contient *{numberOfPerson}* personnes ! \nLa description du serveur est {serverDescription}. \nCe serveur possède {numberOfTextChannels} salons écrit et {numberOfVoiceChannels} salon vocaux."
-	await ctx.send(message)
-"""
+	sendMessage(message)
 
-bot.run("NzYxMTU1ODYyODM5NTU4MTY0.X3Wfow.eAsaacpeNbK2y_ajGU_OxcDK6_Y")
+
+bot.run(DISCORD_TOKEN)
