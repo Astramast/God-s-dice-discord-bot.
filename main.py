@@ -41,7 +41,7 @@ def verif(xdy):
 
 	return True
 
-async def sendMessage(msg):
+async def sendMessage(ctx, msg):
 	n = len(msg)//2000
 	for _ in range(n+1):
 		await ctx.send(msg[:2000])
@@ -49,7 +49,7 @@ async def sendMessage(msg):
 		sleep(MESSAGE_RATE)
 
 # Code
-bot = commands.Bot(command_prefix="?", description=DESCRIPTION, intents=discord.Intents.all())
+bot = commands.Bot(command_prefix="G", description=DESCRIPTION, intents=discord.Intents.all())
 
 @bot.event
 async def on_ready():
@@ -76,13 +76,11 @@ async def coucou(ctx):
 
 
 @bot.command()
-async def lance(ctx, xdy, operation):
+async def lance(ctx, xdy, operation=None):
 	if not verif(xdy):
 		print("Erreur input")
-		await ctx.send(f"Tu as fait une erreur. \n Un dé doit être décrit comme tel: \n \t\"xdy\"\n où x est le \
-			nombre de dés et y le nombre de faces du dé. X est limité à 1000.")
+		await ctx.send(f"Tu as fait une erreur. Un dé doit être décrit comme tel: \n \t\"xdy\"\n où x est le nombre de dés et y le nombre de faces du dé. X est limité à 1000.")
 		return
-	print("lance")
 	xy = xdy.split("d")
 	await ctx.send("Les dés sont lancé !!!")
 	res = []
@@ -92,18 +90,19 @@ async def lance(ctx, xdy, operation):
 		res.append(dice)
 
 	res_str = spacer(res)
-	message = f"Les résultats sont :{res_str}"
+	message = f"Les résultats sont : {res_str}"
 	if operation == "+":
-		message = f"Le résultat est :{sum(res)}"
+		message = f"Le résultat est : {sum(res)}"
 	print(message)
-	sendMessage(message)
+	await sendMessage(ctx, message)
 
+"""
 @bot.command()
 async def kick(ctx, user: discord.User, *reason):
 	print(reason)
 	reason = " ".join(reason)
 	await ctx.guild.kick(user, reason=reason)
-	sendMessage(f"{user} à été détruit par le dés de dieux, si il revient cela donnera une preuve de plus qu'il est l'antéchrist.")
+	await sendMessage(ctx, f"{user} à été détruit par le dés de dieux, si il revient cela donnera une preuve de plus qu'il est l'antéchrist.")
 
 
 
@@ -111,9 +110,8 @@ async def kick(ctx, user: discord.User, *reason):
 async def ban(ctx, user: discord.User, *reason):
 	reason = " ".join(reason)
 	await ctx.guild.ban(user, reason=reason)
-	sendMessage(f"{user} à été ban pour la raison suivante : {reason}.")
-
-
+	await sendMessage(ctx, f"{user} à été ban pour la raison suivante : {reason}.")
+"""
 
 @bot.command()
 async def serverInfo(ctx):
@@ -125,7 +123,7 @@ async def serverInfo(ctx):
 	numberOfPerson = server.member_count
 	serverName = server.name
 	message = f"Le serveur **{serverName}** contient *{numberOfPerson}* personnes ! \nLa description du serveur est {serverDescription}. \nCe serveur possède {numberOfTextChannels} salons écrit et {numberOfVoiceChannels} salon vocaux."
-	sendMessage(message)
+	await sendMessage(ctx, message)
 
 
 bot.run(DISCORD_TOKEN)
