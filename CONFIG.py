@@ -6,3 +6,5 @@ MESSAGE_AMOUNT_LIMIT = 5
 MESSAGE_RATE = 1/MESSAGE_AMOUNT_LIMIT
 # Description of the bot
 DESCRIPTION = "propriété du Cap Stanton"
+# Préfixe de commande (!help => préfixe : !)
+COMMAND_PREFIX = "!"

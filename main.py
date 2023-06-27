@@ -49,7 +49,7 @@ async def sendMessage(ctx, msg):
 		sleep(MESSAGE_RATE)
 
 # Code
-bot = commands.Bot(command_prefix="G", description=DESCRIPTION, intents=discord.Intents.all())
+bot = commands.Bot(command_prefix=COMMAND_PREFIX, description=DESCRIPTION, intents=discord.Intents.all())
 
 @bot.event
 async def on_ready():
