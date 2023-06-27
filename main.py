@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """
 Alexandre Anspach - Installé Arthur
 Bot Discord qui permet de lancer des dés et plus encore.
