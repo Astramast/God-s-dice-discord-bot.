@@ -91,14 +91,14 @@ async def lance(ctx, xdy, operation=" "):
 
 	res_str = spacer(res, operation)
 	if operation == "+":
-		message = f"Le résultat est : {res_str+'='+sum(res)}"
+		message = f"Le résultat est : {res_str}={sum(res)}"
 	else:
 		message = f"Les résultats sont : {res_str}"
 	print(message)
 	await sendMessage(ctx, message)
 
 @bot.command()
-async def r(ctx, xdy, operation=None):
+async def r(ctx, xdy, operation=" "):
 	await lance(ctx, xdy, operation)
 
 @bot.command()
