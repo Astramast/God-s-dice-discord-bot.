@@ -19,11 +19,11 @@ load_dotenv()
 DISCORD_TOKEN = getenv("DISCORD_TOKEN")
 
 """Définition de fonctions"""
-def spacer(_list):
+def spacer(_list, spacing):
 	spaced_str = ""
 	for element in _list:
-		spaced_str+=str(element)+" "
-	return spaced_str + '\n'
+		spaced_str+=str(element)+spacing
+	return spaced_str[:len(spaced_str)-1]
 
 def verif(xdy):
 	xdy_list = xdy.split("d")
@@ -76,7 +76,7 @@ async def coucou(ctx):
 
 
 @bot.command()
-async def lance(ctx, xdy, operation=None):
+async def lance(ctx, xdy, operation=" "):
 	if not verif(xdy):
 		print("Erreur input")
 		await ctx.send(f"Tu as fait une erreur. Un dé doit être décrit comme tel: \n \t\"xdy\"\n où x est le nombre de dés et y le nombre de faces du dé. X est limité à 1000.")
@@ -89,10 +89,11 @@ async def lance(ctx, xdy, operation=None):
 		dice = randint(1, int(xy[1]))
 		res.append(dice)
 
-	res_str = spacer(res)
-	message = f"Les résultats sont : {res_str}"
+	res_str = spacer(res, operation)
 	if operation == "+":
-		message = f"Le résultat est : {sum(res)}"
+		message = f"Le résultat est : {res_str+'='+sum(res)}"
+	else:
+		message = f"Les résultats sont : {res_str}"
 	print(message)
 	await sendMessage(ctx, message)
 
