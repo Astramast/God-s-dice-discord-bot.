@@ -96,6 +96,22 @@ async def lance(ctx, xdy, operation=None):
 	print(message)
 	await sendMessage(ctx, message)
 
+@bot.command()
+async def r(ctx, xdy, operation=None):
+	await lance(ctx, xdy, operation)
+
+@bot.command()
+async def serverInfo(ctx):
+	print("servinfo")
+	server = ctx.guild
+	numberOfTextChannels = len(server.text_channels)
+	numberOfVoiceChannels = len(server.voice_channels)
+	serverDescription = server.description
+	numberOfPerson = server.member_count
+	serverName = server.name
+	message = f"Le serveur **{serverName}** contient *{numberOfPerson}* personnes ! \nLa description du serveur est {serverDescription}. \nCe serveur possède {numberOfTextChannels} salons écrit et {numberOfVoiceChannels} salon vocaux."
+	await sendMessage(ctx, message)
+
 """
 @bot.command()
 async def kick(ctx, user: discord.User, *reason):
@@ -112,18 +128,6 @@ async def ban(ctx, user: discord.User, *reason):
 	await ctx.guild.ban(user, reason=reason)
 	await sendMessage(ctx, f"{user} à été ban pour la raison suivante : {reason}.")
 """
-
-@bot.command()
-async def serverInfo(ctx):
-	print("servinfo")
-	server = ctx.guild
-	numberOfTextChannels = len(server.text_channels)
-	numberOfVoiceChannels = len(server.voice_channels)
-	serverDescription = server.description
-	numberOfPerson = server.member_count
-	serverName = server.name
-	message = f"Le serveur **{serverName}** contient *{numberOfPerson}* personnes ! \nLa description du serveur est {serverDescription}. \nCe serveur possède {numberOfTextChannels} salons écrit et {numberOfVoiceChannels} salon vocaux."
-	await sendMessage(ctx, message)
 
 
 bot.run(DISCORD_TOKEN)
