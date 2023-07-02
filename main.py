@@ -114,6 +114,23 @@ async def serverInfo(ctx):
 	message = f"Le serveur **{serverName}** contient *{numberOfPerson}* personnes ! \nLa description du serveur est {serverDescription}. \nCe serveur possède {numberOfTextChannels} salons écrit et {numberOfVoiceChannels} salon vocaux."
 	await sendMessage(ctx, message)
 
+@bot.command()
+async def d6(ctx):
+	await lance(ctx, "1d6")
+
+@bot.command()
+async def d10(ctx):
+	await lance(ctx, "1d10")
+
+@bot.command()
+async def d20(ctx):
+	await lance(ctx, "1d20")
+
+@bot.command()
+async def d100(ctx):
+	await lance(ctx, "1d100")
+
+
 """
 @bot.command()
 async def kick(ctx, user: discord.User, *reason):
