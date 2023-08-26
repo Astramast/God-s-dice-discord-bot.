@@ -77,30 +77,34 @@ async def coucou(ctx):
 
 
 @bot.command()
-async def lance(ctx, xdy, operation=" "):
+async def r(ctx, xdy, operation=None):
 	if not verif(xdy):
 		print("Erreur input")
 		await ctx.send(f"Tu as fait une erreur. Un dé doit être décrit comme tel: \n \t\"xdy\"\n où x est le nombre de dés et y le nombre de faces du dé. X est limité à 1000.")
 		return
 	xy = xdy.split("d")
-	await ctx.send("Les dés sont lancé !!!")
+	if operation is None:
+		await ctx.send("Les dés sont lancés !!!")
+	else:
+		await sendMessage(ctx, "Les dés sont lancés !!! But : {operation}")
 	res = []
 	dice_amount = int(xy[0])
 	for i in range(dice_amount):
 		dice = randint(1, int(xy[1]))
 		res.append(dice)
 
-	res_str = spacer(res, operation)
 	if operation == "+":
 		message = f"Le résultat est : {res_str}={sum(res)}"
+		res_str = spacer(res, "+")
 	else:
 		message = f"Les résultats sont : {res_str}"
+		res_str = spacer(res, " ")
 	print(message)
 	await sendMessage(ctx, message)
 
 @bot.command()
-async def r(ctx, xdy, operation=" "):
-	await lance(ctx, xdy, operation)
+async def lance(ctx, xdy, operation=None):
+	await r(ctx, xdy, operation)
 
 @bot.command()
 async def serverInfo(ctx):
@@ -116,19 +120,19 @@ async def serverInfo(ctx):
 
 @bot.command()
 async def d6(ctx):
-	await lance(ctx, "1d6")
+	await r(ctx, "1d6")
 
 @bot.command()
 async def d10(ctx):
-	await lance(ctx, "1d10")
+	await r(ctx, "1d10")
 
 @bot.command()
 async def d20(ctx):
-	await lance(ctx, "1d20")
+	await r(ctx, "1d20")
 
 @bot.command()
 async def d100(ctx):
-	await lance(ctx, "1d100")
+	await r(ctx, "1d100")
 
 
 """
