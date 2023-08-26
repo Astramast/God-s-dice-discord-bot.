@@ -86,7 +86,7 @@ async def r(ctx, xdy, operation=None):
 	if operation is None:
 		await ctx.send("Les dés sont lancés !!!")
 	else:
-		await sendMessage(ctx, "Les dés sont lancés !!! But : {operation}")
+		await sendMessage(ctx, f"Les dés sont lancés !!! But : {operation}")
 	res = []
 	dice_amount = int(xy[0])
 	for i in range(dice_amount):
