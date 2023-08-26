@@ -42,6 +42,20 @@ def verif(xdy):
 
 	return True
 
+def sumStringList(listie):
+	res = ""
+	for i in listie:
+		res+=i+" "
+	return res
+
+async def sendLabel(ctx, operation):
+	if operation == ():
+		print("Entré !")
+		await ctx.send("Les dés sont lancés !!!")
+	else:
+		label = sumStringList(operation)
+		await ctx.send(f"Les dés sont lancés !!! But : {label}")
+
 async def sendMessage(ctx, msg):
 	n = len(msg)//2000
 	for _ in range(n+1):
@@ -69,42 +83,34 @@ async def on_command_error(ctx, error):
 	elif isinstance(error.original, discord.Forbidden):
 		await ctx.send("Oups, je n'ai pas les permissions nécéssaires pour faire cette commmande")
 
+@bot.command()
+async def ping(ctx):
+	print("Pong !")
+	await ctx.send("Pong !")
 
 @bot.command()
-async def coucou(ctx):
-	print("Coucou, tu veux voir ma bite ?")
-	await ctx.send("Coucou, tu veux voir ma bite ?")
-
-
-@bot.command()
-async def r(ctx, xdy, operation=None):
+async def r(ctx, xdy, *operation):
 	if not verif(xdy):
 		print("Erreur input")
 		await ctx.send(f"Tu as fait une erreur. Un dé doit être décrit comme tel: \n \t\"xdy\"\n où x est le nombre de dés et y le nombre de faces du dé. X est limité à 1000.")
 		return
+	print(operation)
+	await sendLabel(ctx, operation)
 	xy = xdy.split("d")
-	if operation is None:
-		await ctx.send("Les dés sont lancés !!!")
-	else:
-		await sendMessage(ctx, f"Les dés sont lancés !!! But : {operation}")
 	res = []
 	dice_amount = int(xy[0])
 	for i in range(dice_amount):
 		dice = randint(1, int(xy[1]))
 		res.append(dice)
 
-	if operation == "+":
-		message = f"Le résultat est : {res_str}={sum(res)}"
+	if operation != () and operation[0] == "+":
 		res_str = spacer(res, "+")
+		message = f"Le résultat est : {res_str}={sum(res)}"
 	else:
-		message = f"Les résultats sont : {res_str}"
 		res_str = spacer(res, " ")
+		message = f"Les résultats sont : {res_str}"
 	print(message)
 	await sendMessage(ctx, message)
-
-@bot.command()
-async def lance(ctx, xdy, operation=None):
-	await r(ctx, xdy, operation)
 
 @bot.command()
 async def serverInfo(ctx):
