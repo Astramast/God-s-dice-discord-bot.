@@ -15,17 +15,19 @@ class Formula:
 
 	def parse(self, formula):
 		head = 0
-		queue = deque()
+		number = ""
 		factory = OperatorFactory()
 		operators = factory.getOperators()
 		while head < len(formula):
 			char = formula[head]
-			if char == "(":
-				last = formula.rfind(")")
-				self.root = self.parse(formula[head:last + 1])
-				head = last + 1
-			elif char in operators:
-				number = Number(int("".join(queue)))
-				queue.clear()
-			queue.append(char)
+			if char.isdigit():
+				number += char
+				continue
+			else:
+				root = Number(int(number))
+				number = ""
+			if char in operators:
+				root = factory.getOperator(char)(root, self.parse(formula[head + 1:]))
 			head += 1
+		return root
+

@@ -3,7 +3,9 @@ from Operator import *
 
 class OperatorFactory():
     def __init__(self, char):
-		self.operators = ["+", "-", "*", "/", "%", "d"]
+		self.operators = ["d", "*", "/", "+", "-"]
+
+	def getOperator(self, char):
 		if char == "+":
 			return Add
 		elif char == "-":
